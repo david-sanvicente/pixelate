@@ -16,5 +16,22 @@ makeRow();
 makeRow();
 
 const button = document.getElementById('add-row');
-button.addEventListener('click', makeRow());
+button.addEventListener('click', makeRow);
+
+function colorize (event) {
+  let tableCell = event.target;
+
+  if(tableCell.className.length){
+    tableCell.className = '';
+  } else {
+    tableCell.className = 'green';
+  }
+  // if(tableCell.className === ''){
+  //   tableCell.className = 'green';
+  // } else{
+  //   tableCell.className = '';
+  // }
+}
+
+table.addEventListener('click', colorize);
 
