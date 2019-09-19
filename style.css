@@ -3,8 +3,6 @@
   font-family: 'Press Start 2P', cursive;
 }
 
-
-
 html {
   background-color: #222;
   color: white;
@@ -23,3 +21,30 @@ body {
 }
 
 /* your CSS below! */
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.indigo {
+  background-color: indigo;
+}
+
+.violet {
+  background-color: violet;
+}
