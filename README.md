@@ -1,6 +1,6 @@
 # Pixelate
 
-An editor for your 8-bit art!
+An editor for 8-bit art!
 
 To get started:
 

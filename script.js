@@ -1,18 +1,21 @@
-let rows = 4;
-let rowLen = 20;
+let rows = 13;
+let rowLen = 25;
+
+// flag for mouseover listener
+let isDrawing = false;
 
 // instantiate button variables
 const addRow = document.getElementById("add-row");
 const table = document.getElementById("table");
 const nuke = document.getElementById("nuke");
 const clear = document.getElementById("clear");
+const addColumnDiv = document.createElement('div');
+const addColumnButton = document.createElement('button');
+const removeRowButton = document.getElementById("remove-row");
+const removeColumnButton = document.createElement('button');
 
-// flag for mouseover listener
-let isDrawing = false;
-
-// event listeners for buttons
+// event listeners and onclicks
 addRow.addEventListener('click', () => {makeRow(rowLen)});
-nuke.addEventListener('click', paintAll);
 table.addEventListener('mousedown', colorize);
 table.addEventListener('mouseover', function(event){
     // checks for isDrawing flag before running method on mouseover
@@ -24,22 +27,15 @@ table.addEventListener('mouseup', function(){
     // set flag back to false on mouse up to stop painting
     isDrawing = false
 })
+nuke.addEventListener('click', paintAll);
 clear.addEventListener('click', clearBoard);
-
-// action methods for event listeners
-function makeRow(len){ // adds a tr to the table
-    // create a tr element
-    const tr = document.createElement('tr');
-
-    // create td elements len times
-    for(let i = 0; i < len; i++){
-        let td = document.createElement('td');
-        tr.appendChild(td);
-    }
-    // append tr to table
-    table.appendChild(tr);
-    rows++;
-}
+addColumnDiv.appendChild(addColumnButton);
+addColumnDiv.appendChild(removeColumnButton);
+addColumnButton.textContent = '+';
+removeColumnButton.textContent = '-';
+addColumnButton.onclick = () => {addColumn()};
+removeRowButton.onclick = () => {removeRow()};
+removeColumnButton.onclick =() => {removeColumn()};
 
 // adds the clear class to all td elements
 function clearBoard(){ 
@@ -96,71 +92,68 @@ function renderGrid(num1, num2){
     }
 }
 
-// render default grid
-renderGrid(rows, rowLen);
+// adds a tr to the table
+function makeRow(len){ 
+    // create a tr element
+    const tr = document.createElement('tr');
 
-// Add/Remove Columns
-// create div for "+/-" column buttons
-const addColumnDiv = document.createElement('div');
-// create '+' button
-const addColumnButton = document.createElement('button');
-addColumnButton.textContent = '+';
-addColumnButton.onclick = () => {addColumn()};
-// create '-' button
-const removeColumnButton = document.createElement('button');
-removeColumnButton.textContent = '-';
-removeColumnButton.onclick =() => {removeColumn()};
-
-function addColumn(){
-    // add a td to every tr
-    // collect all tr
-    let allTr = Array.from(document.getElementsByTagName('tr'));
-    // iterate through
-    allTr.map(tr => {
-        tr.insertCell(0);
-    });
-    rowLen++;
+    // create td elements len times
+    for(let i = 0; i < len; i++){
+        let td = document.createElement('td');
+        tr.appendChild(td);
+    }
+    // append tr to table
+    table.appendChild(tr);
+    rows++;
 }
 
-function removeColumn(){
-
-    if(rowLen > 1){
-      // remove the last td from every tr
+function removeRow(){
+    if(rows > 1){
       // collect all tr
-      let allTr = Array.from(document.getElementsByTagName('tr'));
-      // iterate through tr
-      allTr.map(tr => {
-          tr.deleteCell(0);
-      });
-        rowLen--;
-    } else if(rowLen == 1){
+      const allTr = Array.from(document.getElementsByTagName('tr'));
+      // select last row
+      const row = allTr[allTr.length - 1];
+      // remove last node from its parent
+      row.parentNode.removeChild(row);
+      rows--;
+    } else {
       alert("You can't make the board any shorter!");
     }
 }
+  
+function addColumn(){
+      // add a td to every tr
+      // collect all tr
+      let allTr = Array.from(document.getElementsByTagName('tr'));
+      // iterate through
+      allTr.map(tr => {
+          tr.insertCell(0);
+      });
+      rowLen++;
+}
+  
+function removeColumn(){
+  
+      if(rowLen > 1){
+        // remove the last td from every tr
+        // collect all tr
+        let allTr = Array.from(document.getElementsByTagName('tr'));
+        // iterate through tr
+        allTr.map(tr => {
+            tr.deleteCell(0);
+        });
+          rowLen--;
+      } else if(rowLen == 1){
+        alert("You can't make the board any shorter!");
+      }
+}
 
-// append buttons to addColumnDiv
-addColumnDiv.appendChild(addColumnButton);
-addColumnDiv.appendChild(removeColumnButton);
+// render default grid
+renderGrid(rows, rowLen);
+
+/* this isn't a great idea. pull out this button into it's own element styled besides the table */
 // select first tr in table
 const firstRow = document.getElementsByTagName('tr')[0];
 // append button to end of firstRow
 firstRow.appendChild(addColumnDiv);
 
-// select remove row button
-const removeRowButton = document.getElementById("remove-row");
-// add event listener
-removeRowButton.onclick = () => {removeRow()};
-// write method
-function removeRow(){
-  if(rows > 1){
-    // collect all tr
-    const allTr = Array.from(document.getElementsByTagName('tr'));
-    // select last row
-    const row = allTr[allTr.length - 1];
-    // remove last node from its parent
-    row.parentNode.removeChild(row);
-    rows--;
-  } else {
-    alert("You can't make the board any shorter!");
-  }
-}
