@@ -1,12 +1,25 @@
+// default columns and rows
 let rows = 13;
 let rowLen = 25;
+
+// target the select element of id="select"
+let select = document.getElementById("select")
+// all the colors!
+const colors = ['red','orange','yellow','green','blue','indigo','violet']
+// map through all colors
+colors.map(color => {
+    let option = document.createElement('option')
+    option.value = color;
+    option.text = color;
+    select.appendChild(option);
+});
 
 // flag for mouseover listener
 let isDrawing = false;
 
-// instantiate button variables
-const addRow = document.getElementById("add-row");
+// instantiate table and button variables
 const table = document.getElementById("table");
+const addRow = document.getElementById("add-row");
 const nuke = document.getElementById("nuke");
 const clear = document.getElementById("clear");
 const addColumnDiv = document.createElement('div');
